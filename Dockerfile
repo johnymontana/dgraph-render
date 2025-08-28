@@ -13,4 +13,7 @@ WORKDIR /dgraph
 EXPOSE 8080 9080 8000
 
 # Start Dgraph in standalone mode
-CMD ["dgraph", "zero", "--config", "/dgraph/config/dgraph-config.yml", "&", "dgraph", "alpha", "--config", "/dgraph/config/dgraph-config.yml"]
+ADD start.sh /
+RUN chmod +x /start.sh
+
+CMD ["/start.sh"]
