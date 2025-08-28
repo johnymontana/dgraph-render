@@ -6,7 +6,7 @@ This guide walks you through deploying Dgraph as a self-hosted solution on Rende
 ## Prerequisites
 
 - A Render account (free tier available)
-- Basic familiarity with Docker and GraphQL
+- Basic familiarity with Docker
 - Git repository for your deployment configuration
 
 ## Overview
@@ -125,34 +125,16 @@ wait
 
 ![](img/render-instance-type.png)
 
+5. Set `PORT` environment variable
+
+Our Render application exposes a single port which we must specifcy in an environment variable. We'll expose Dgraph's HTTP port 8080 by setting the `PORT` environment variable to 8080
+
+![](img/render-env-var.png)
+
+6. Deploy
+
 ![Deployed Render](img/dgraph-render-deploy.png)
 
-### Using render.yaml (Infrastructure as Code)
-
-Alternatively, create a `render.yaml` file in your repository root:
-
-```yaml
-services:
-  - type: web
-    name: dgraph-standalone
-    env: docker
-    plan: starter # or standard/pro based on needs
-    region: oregon # or your preferred region
-    buildCommand: ""
-    startCommand: ""
-    envVars:
-      - key: DGRAPH_ALPHA_CONFIG
-        value: /dgraph/config/dgraph-config.yml
-    disk:
-      name: dgraph-data
-      mountPath: /dgraph/data
-      sizeGB: 10 # adjust based on your data needs
-
-disks:
-  - name: dgraph-data
-    sizeGB: 10
-    mountPath: /dgraph/data
-```
 
 ## Step 3: Configure Persistent Storage
 
@@ -168,11 +150,9 @@ Render provides persistent disks for data storage:
 
 ## Step 4: Access Your Dgraph Instance
 
-Once deployed, your Dgraph instance will be available at:
+Once deployed, your Dgraph instance will be available at: `https://your-service-name.onrender.com`
 
-- **GraphQL Endpoint**: `https://your-service-name.onrender.com:8080/graphql`
-- **Admin Endpoint**: `https://your-service-name.onrender.com:8080/admin`
-- **gRPC Endpoint**: `your-service-name.onrender.com:9080`
+
 
 ## Step 5: Initial Setup and Testing
 
@@ -297,19 +277,6 @@ grpc:
    - Confirm port bindings (8080, 9080)
    - Check firewall/security settings
    - Verify service URL
-
-### Debug Commands
-
-```bash
-# Check service status
-curl https://your-service-name.onrender.com:8080/health
-
-# View cluster state
-curl https://your-service-name.onrender.com:8080/state
-
-# Check metrics
-curl https://your-service-name.onrender.com:8080/debug/vars
-```
 
 
 ## Resources
