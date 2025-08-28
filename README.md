@@ -186,30 +186,6 @@ curl https://your-service-name.onrender.com:8080/health
 curl https://your-service-name.onrender.com:8080/state
 ```
 
-### Load Sample Schema
-
-```graphql
-# Access the admin endpoint to set schema
-mutation {
-  updateGQLSchema(input: {
-    set: {
-      schema: '''
-        type Person {
-          id: ID!
-          name: String! @search(by: [hash])
-          age: Int
-          friends: [Person] @hasInverse(field: friends)
-        }
-      '''
-    }
-  }) {
-    gqlSchema {
-      schema
-    }
-  }
-}
-```
-
 ## Security Considerations
 
 ### 1. Authentication Setup
